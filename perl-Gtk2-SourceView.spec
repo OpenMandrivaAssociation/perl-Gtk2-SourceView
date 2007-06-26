@@ -3,10 +3,11 @@
 Summary: Perl module for the gtksourceview library
 Name:    perl-%module
 Version: 1.000
-Release: %mkrel 3
+Release: %mkrel 5
 License: GPL or Artistic
 Group:   Development/GNOME and GTK+
 Source:  %module-%version.tar.bz2
+Patch:   Gtk2-SourceView-1.000-port-to-api2.patch
 URL: http://gtk2-perl.sf.net/
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires: gtk+2-devel 
@@ -29,6 +30,7 @@ GtkSourceView specializes these features for a code editor.
 
 %prep
 %setup -q -n %module-%version
+%patch -p0
 find -type d -name CVS | xargs rm -rf 
 perl Makefile.PL INSTALLDIRS=vendor
 
