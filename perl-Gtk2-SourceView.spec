@@ -15,7 +15,7 @@ BuildRequires: perl-ExtUtils-Depends
 BuildRequires: perl-Gnome2 >= 0.30
 BuildRequires: perl-Glib > 1.00
 BuildRequires: perl-Gnome2-Print
-BuildRequires: gtksourceview-devel >= 0.7 
+BuildRequires: libgtksourceview-1.0-devel >= 0.7 
 BuildRequires: perl-ExtUtils-PkgConfig
 BuildRequires: libgnomeprintui2-2-devel
 
