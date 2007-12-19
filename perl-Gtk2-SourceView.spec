@@ -29,7 +29,8 @@ GtkSourceView specializes these features for a code editor.
 
 %prep
 %setup -q -n %module-%version
-%patch -p0
+# (tv) disabled (not enought to build with gtksourceview-2):
+#%patch -p0
 find -type d -name CVS | xargs rm -rf 
 perl Makefile.PL INSTALLDIRS=vendor
 
