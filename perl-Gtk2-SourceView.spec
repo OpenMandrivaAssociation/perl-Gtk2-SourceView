@@ -9,6 +9,7 @@ Group:   Development/GNOME and GTK+
 Source:  %module-%version.tar.bz2
 Patch:   Gtk2-SourceView-1.000-port-to-api2.patch
 URL: http://gtk2-perl.sf.net/
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires: gtk+2-devel 
 BuildRequires: perl-devel 
 BuildRequires: perl-ExtUtils-Depends 
