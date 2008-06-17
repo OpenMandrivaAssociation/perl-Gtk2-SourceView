@@ -3,7 +3,7 @@
 Summary: Perl module for the gtksourceview library
 Name:    perl-%module
 Version: 1.000
-Release: %mkrel 7
+Release: %mkrel 8
 License: GPL or Artistic
 Group:   Development/GNOME and GTK+
 Source:  %module-%version.tar.bz2
