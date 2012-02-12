@@ -12,9 +12,9 @@ Url:        http://gtk2-perl.sf.net/
 Source0:    %{upstream_name}-%{upstream_version}.tar.bz2
 Patch0:     Gtk2-SourceView-1.000-port-to-api2.patch
 
-BuildRequires: gtk+2-devel 
-BuildRequires: libgnomeprintui2-2-devel
-BuildRequires: libgtksourceview-1.0-devel >= 0.7 
+BuildRequires: pkgconfig(gtk+-2.0)
+BuildRequires: pkgconfig(libgnomeprintui-2.2)
+BuildRequires: pkgconfig(gtksourceview-1.0)
 BuildRequires: perl(ExtUtils::Depends)
 BuildRequires: perl(ExtUtils::PkgConfig)
 BuildRequires: perl(Glib)                 >  1.00
