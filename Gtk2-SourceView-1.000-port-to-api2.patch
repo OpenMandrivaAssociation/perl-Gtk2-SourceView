@@ -1,0 +1,132 @@
+--- ./maps.tv	2007-06-25 18:24:15.000000000 +0200
++++ ./maps	2007-06-25 18:24:17.000000000 +0200
+@@ -1,6 +1,6 @@
+ GTK_TYPE_SOURCE_BUFFER			GtkSourceBuffer			GObject		Gtk2::SourceView::Buffer
+ GTK_TYPE_SOURCE_LANGUAGE		GtkSourceLanguage		GObject		Gtk2::SourceView::Language
+-GTK_TYPE_SOURCE_LANGUAGES_MANAGER	GtkSourceLanguagesManager	GObject		Gtk2::SourceView::LanguagesManager
++GTK_TYPE_SOURCE_LANGUAGES_MANAGER	GtkSourceLanguageManager	GObject		Gtk2::SourceView::LanguagesManager
+ GTK_TYPE_SOURCE_MARKER			GtkSourceMarker			GObject		Gtk2::SourceView::Marker
+ GTK_TYPE_SOURCE_PRINT_JOB		GtkSourcePrintJob		GObject		Gtk2::SourceView::PrintJob
+ GTK_TYPE_SOURCE_TAG_TABLE		GtkSourceTagTable		GObject		Gtk2::SourceView::TagTable
+--- ./xs/GtkSourceBuffer.xs.tv	2007-06-25 18:16:05.000000000 +0200
++++ ./xs/GtkSourceBuffer.xs	2007-06-25 18:15:33.000000000 +0200
+@@ -22,7 +22,7 @@
+ MODULE = Gtk2::SourceView::Buffer	PACKAGE = Gtk2::SourceView::Buffer	PREFIX = gtk_source_buffer_
+ 
+ GtkSourceBuffer_noinc *
+-gtk_source_buffer_new (class, GtkSourceTagTable_ornull * table)
++gtk_source_buffer_new (class, GtkTextTagTable_ornull * table)
+     C_ARGS:
+     	table
+ 
+@@ -38,9 +38,6 @@ gtk_source_buffer_get_check_brackets (Gt
+ void
+ gtk_source_buffer_set_check_brackets (GtkSourceBuffer * buffer, gboolean check_brackets)
+ 
+-void
+-gtk_source_buffer_set_bracket_match_style (GtkSourceBuffer *source_buffer, const GtkSourceTagStyle *style);
+-
+ gboolean
+ gtk_source_buffer_get_highlight	(GtkSourceBuffer * buffer)
+ 
+--- ./xs/GtkSourceLanguage.xs.tv	2007-06-25 18:15:58.000000000 +0200
++++ ./xs/GtkSourceLanguage.xs	2007-06-25 18:16:57.000000000 +0200
+@@ -80,9 +80,3 @@ gtk_source_language_set_mime_types (lang
+ GtkSourceStyleScheme *gtk_source_language_get_style_scheme (GtkSourceLanguage *language);
+ 
+ void gtk_source_language_set_style_scheme (GtkSourceLanguage *language, GtkSourceStyleScheme *scheme);
+-
+-GtkSourceTagStyle_own_ornull *gtk_source_language_get_tag_style (GtkSourceLanguage *language, const gchar *tag_id);
+-
+-void gtk_source_language_set_tag_style (GtkSourceLanguage *language, const gchar *tag_id, const GtkSourceTagStyle_ornull *style);
+-
+-GtkSourceTagStyle_own *gtk_source_language_get_tag_default_style (GtkSourceLanguage *language, const gchar *tag_id);
+--- ./xs/GtkSourceLanguagesManager.xs.tv	2007-06-25 18:17:59.000000000 +0200
++++ ./xs/GtkSourceLanguagesManager.xs	2007-06-25 18:20:45.000000000 +0200
+@@ -19,36 +19,36 @@
+ 
+ #include "gtksourceviewperl.h"
+ 
+-MODULE = Gtk2::SourceView::LanguagesManager	PACKAGE = Gtk2::SourceView::LanguagesManager	PREFIX = gtk_source_languages_manager_
++MODULE = Gtk2::SourceView::LanguageManager	PACKAGE = Gtk2::SourceView::LanguageManager	PREFIX = gtk_source_language_manager_
+ 
+-GtkSourceLanguagesManager_noinc *
+-gtk_source_languages_manager_new (class)
++GtkSourceLanguageManager_noinc *
++gtk_source_language_manager_new (class)
+     C_ARGS:
+     	/* void */
+ 
+-##const GSList *gtk_source_languages_manager_get_available_languages (GtkSourceLanguagesManager *lm);
++##const GSList *gtk_source_language_manager_get_available_language (GtkSourceLanguageManager *lm);
+ void
+-gtk_source_languages_manager_get_available_languages (lm)
+-	GtkSourceLanguagesManager *lm
++gtk_source_language_manager_get_available_language (lm)
++	GtkSourceLanguageManager *lm
+     PREINIT:
+ 	const GSList *list, *iter;
+     PPCODE:
+-	list = gtk_source_languages_manager_get_available_languages (lm);
++	list = gtk_source_language_manager_get_available_language (lm);
+ 	for (iter = list; iter; iter = iter->next)
+ 		XPUSHs (sv_2mortal (newSVGtkSourceLanguage (iter->data)));
+ 
+ GtkSourceLanguage_ornull *
+-gtk_source_languages_manager_get_language_from_mime_type (lm, mime_type)
+-	GtkSourceLanguagesManager * lm
++gtk_source_language_manager_get_language_from_mime_type (lm, mime_type)
++	GtkSourceLanguageManager * lm
+ 	const gchar * mime_type
+ 
+-##const GSList *gtk_source_languages_manager_get_lang_files_dirs (GtkSourceLanguagesManager *lm);
++##const GSList *gtk_source_language_manager_get_lang_files_dirs (GtkSourceLanguageManager *lm);
+ void
+-gtk_source_languages_manager_get_lang_files_dirs (lm)
+-	GtkSourceLanguagesManager *lm
++gtk_source_language_manager_get_lang_files_dirs (lm)
++	GtkSourceLanguageManager *lm
+     PREINIT:
+ 	const GSList *list, *iter;
+     PPCODE:
+-	list = gtk_source_languages_manager_get_lang_files_dirs (lm);
++	list = gtk_source_language_manager_get_lang_files_dirs (lm);
+ 	for (iter = list; iter; iter = iter->next)
+ 		XPUSHs (sv_2mortal (newSVGChar (iter->data)));
+--- ./Makefile.PL.tv	2007-06-25 17:54:35.000000000 +0200
++++ ./Makefile.PL	2007-06-25 17:54:36.000000000 +0200
+@@ -45,7 +45,7 @@ unless (eval "use ExtUtils::Depends;"
+ 
+ mkdir 'build', 0777;
+ 
+-our %pkgcfg = ExtUtils::PkgConfig->find ('gtksourceview-1.0 >= '
++our %pkgcfg = ExtUtils::PkgConfig->find ('gtksourceview-2.0 >= '
+ 				     .$build_reqs{GtkSourceView});
+ 
+ # now we're ready to start creating the makefile.
+@@ -63,7 +63,7 @@ our %pod_files = (
+ );
+ 
+ ExtUtils::PkgConfig->write_version_macros ("build/gtksourceviewperl-version.h",
+-                                           'gtksourceview-1.0' => 'GTK_SOURCE_VIEW');
++                                           'gtksourceview-2.0' => 'GTK_SOURCE_VIEW');
+ 
+ #
+ # autogeneration
+--- ./gtksourceviewperl.h.tv	2007-06-25 17:56:40.000000000 +0200
++++ ./gtksourceviewperl.h	2007-06-25 17:57:09.000000000 +0200
+@@ -28,13 +28,9 @@
+ #include <gtksourceview/gtksourcebuffer.h>
+ #include <gtksourceview/gtksourceiter.h>
+ #include <gtksourceview/gtksourcelanguage.h>
+-#include <gtksourceview/gtksourcelanguagesmanager.h>
++#include <gtksourceview/gtksourcelanguagemanager.h>
+ #include <gtksourceview/gtksourcemarker.h>
+-#include <gtksourceview/gtksourceprintjob.h>
+ #include <gtksourceview/gtksourcestylescheme.h>
+-#include <gtksourceview/gtksourcetag.h>
+-#include <gtksourceview/gtksourcetagstyle.h>
+-#include <gtksourceview/gtksourcetagtable.h>
+ #include <gtksourceview/gtksourceview-typebuiltins.h>
+ #include <gtksourceview/gtksourceview.h>
+ 
