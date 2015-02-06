@@ -3,7 +3,7 @@
 
 Name:		perl-%{upstream_name}
 Version:	%perl_convert_version %{upstream_version}
-Release:	14
+Release:	15
 
 Summary:	Perl upstream_name for the gtksourceview library
 License:	GPL or Artistic
