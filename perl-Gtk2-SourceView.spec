@@ -8,7 +8,7 @@ Release:	15
 Summary:	Perl upstream_name for the gtksourceview library
 License:	GPL or Artistic
 Group:		Development/GNOME and GTK+
-Url:		http://gtk2-perl.sf.net/
+Url:		https://gtk2-perl.sf.net/
 Source0:	%{upstream_name}-%{upstream_version}.tar.bz2
 Patch0:		Gtk2-SourceView-1.000-port-to-api2.patch
 
