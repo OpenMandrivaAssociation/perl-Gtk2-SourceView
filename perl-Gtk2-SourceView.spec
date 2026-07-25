@@ -1,15 +1,15 @@
 %define upstream_name    Gtk2-SourceView
-%define upstream_version 1.000
+%define upstream_version 1.013
 
 Name:		perl-%{upstream_name}
-Version:	%perl_convert_version %{upstream_version}
-Release:	15
+Version:	%{upstream_version}
+Release:	1
 
 Summary:	Perl upstream_name for the gtksourceview library
 License:	GPL or Artistic
 Group:		Development/GNOME and GTK+
 Url:		https://gtk2-perl.sf.net/
-Source0:	%{upstream_name}-%{upstream_version}.tar.bz2
+Source0:	https://cpan.metacpan.org/authors/id/X/XA/XAOC/Gtk2-SourceView-%{upstream_version}.tar.gz
 Patch0:		Gtk2-SourceView-1.000-port-to-api2.patch
 
 BuildRequires:	make
