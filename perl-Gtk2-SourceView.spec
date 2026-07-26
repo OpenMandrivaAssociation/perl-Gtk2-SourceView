@@ -1,15 +1,13 @@
 %define upstream_name    Gtk2-SourceView
-%define upstream_version 1.013
-
 Name:		perl-%{upstream_name}
-Version:	%{upstream_version}
-Release:	1
+Version:	1.013
+Release:	2
 
 Summary:	Perl upstream_name for the gtksourceview library
 License:	GPL or Artistic
 Group:		Development/GNOME and GTK+
 Url:		https://gtk2-perl.sf.net/
-Source0:	https://cpan.metacpan.org/authors/id/X/XA/XAOC/Gtk2-SourceView-%{upstream_version}.tar.gz
+Source0:	https://cpan.metacpan.org/authors/id/X/XA/XAOC/Gtk2-SourceView-%{version}.tar.gz
 Patch0:		Gtk2-SourceView-1.000-port-to-api2.patch
 
 BuildRequires:	make
@@ -34,7 +32,7 @@ features.
 GtkSourceView specializes these features for a code editor.
 
 %prep
-%setup -q -n %{upstream_name}-%{upstream_version}
+%setup -q -n %{upstream_name}-%{version}
 # (tv) disabled (not enought to build with gtksourceview-2):
 #%patch -p0
 find -type d -name CVS | xargs rm -rf 
@@ -59,9 +57,7 @@ perl Makefile.PL INSTALLDIRS=vendor
 
 * Sun Feb 14 2010 JÃ©rÃ´me Quelin <jquelin@mandriva.org> 1.0.0-11mdv2010.1
 + Revision: 505749
-- rebuild using %%perl_convert_version
-
-* Thu Sep 03 2009 Christophe Fergeau <cfergeau@mandriva.com> 1.000-10mdv2010.0
+- rebuild using %1.013 Thu Sep 03 2009 Christophe Fergeau <cfergeau@mandriva.com> 1.000-10mdv2010.0
 + Revision: 426493
 - rebuild
 
